@@ -6,7 +6,7 @@ import './shopping-cart.css';
 const DATA_ITEMS = [
     {
         id: 1,
-        image_product: 'https://www.4-acoustic.com/assets/images/d/PCS-318NB-01-867d001e.png',
+        image_product: 'https://product.hstatic.net/1000367569/product/sub_pcs_318nb_c6dba44f27aa4fbcaa77210701c481db_master.jpg',
         name_product: 'PCS 318NB',
         price_product: 65200000,
         quantity: 1,
@@ -25,35 +25,57 @@ const DATA_ITEMS = [
 
 export function Cart() {
 
-    const [ state, set ] = useState( [...DATA_ITEMS] )
+    const [ stateDataItems, setDataItems] = useState( [...DATA_ITEMS] )
 
     // Số lượng mỗi sản phẩm
+    // Chỗ này không cần, vì mình sẽ sửa số lượng sản phẩm trực tiếp ở state, hoặc biến DATA_ITEM
     const [ stateNumberProducts, setNumberProducts ] = useState( 1 );
+    
     // Gán Css xóa,
     const [ stateDelProduct, setDelProduct ] = useState( false );
-
 
     // ko truyền tham số, tải lại mỗi khi app chạy lại
     useEffect( () => {
     }); 
-
     // Tăng
-    function addProductNumber( event, index ) {  console.log('Tăng số lượng sản phẩm index: ', index);
-
-        let numberItem = stateNumberProducts;  
-        console.log('quantity', numberItem)
-       
-        setNumberProducts( numberItem + 1 );
+    function addProductNumber( event, id ) {
+        // clone state, để dễ dàng chỉnh sửa giá trị
+        let cloneDataItems =[...stateDataItems]
+        cloneDataItems.forEach( (item, index)=> {
+            if(item.id === id){
+                item.quantity += 1
+            }
+        });
+        // set lại giá trị state với giá trị mới là clone,
+        setDataItems(cloneDataItems)
     }
 
     // Giảm
-    function reduce_product_number( event, index ) { console.log('Tăng số lượng sản phẩm index:', index);
-
-        let numberItem = stateNumberProducts; 
-        console.log('quantity', numberItem)
-        setNumberProducts( numberItem - 1 );
+    function reduce_product_number( event, id ) {
+        let cloneDataItems = [...stateDataItems]
+        cloneDataItems.forEach( ( item, index) => {
+            if ( item.id === id ) {
+                item.quantity -= 1
+            }
+        }) 
+        setDataItems(cloneDataItems)
     }
-
+    // Lấy giá trị ô input
+    function valueInputQuantity(event, id) {
+        let valueInputQuantity = event.target.value;
+        let cloneDataItems 
+        if ( valueInputQuantity > 0 &&  valueInputQuantity <= 100 )  {
+            cloneDataItems = [...stateDataItems];
+            cloneDataItems.forEach( ( item ) => {
+                if ( item.id === id ) {
+                    item.quantity = parseInt( valueInputQuantity );
+                }
+            })
+        } else {
+            return;
+        }     
+        setDataItems(cloneDataItems)
+    }
     // Xóa
     function delete_item( event, id ) {
         console.log('Xóa 1 sản phẩm đó id: ', id);
@@ -92,8 +114,11 @@ export function Cart() {
                 <i onClick= { (event) => reduce_product_number( event, cart_item.id ) } className="fas fa-minus" />
                 
                 {/* quantity_product  stateNumberProducts */}
-                <input className="custom-number-input" type="text" Value = { cart_item.quantity } /> 
+                <input onChange = { (event) => valueInputQuantity(event, cart_item.id ) }
+                    value = { cart_item.quantity }
+                    className="custom-number-input" type="number"  /> 
                 
+
                 <i onClick= { (event) => addProductNumber( event, cart_item.id ) } className="fas fa-plus" /> 
             </span>
 
