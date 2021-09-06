@@ -27,6 +27,8 @@ export function Cart() {
     // const [ state, set ] = useState( [...DATA_ITEM] )
     // Số lượng mỗi sản phẩm
     const [ stateNumberProducts, setNumberProducts ] = useState( 1 );
+    // Gán Css xóa,
+    const [ stateDelProduct, setDelProduct ] = useState( false );
 
 
     // ko truyền tham số, tải lại mỗi khi app chạy lại
@@ -46,13 +48,14 @@ export function Cart() {
     }
     // Xóa
     function delete_item( event, index ) {
-        console.log('Xóa 1 sản phẩm đó index: ', index)
+        console.log('Xóa 1 sản phẩm đó index: ', index);
+        setDelProduct( false );
     }
 
     const cartItemElement = DATA_ITEM.map( ( cart_item, id ) => 
 
         <div  key = { cart_item.id }
-            className="cart-item">
+            className=   {`  ${stateDelProduct &&  id ? 'd-none' : 'd-flex'}  cart-item   `} >
 
             <span> <input type="checkbox" defaultValue /> </span>
         
@@ -62,7 +65,7 @@ export function Cart() {
         
             <span> { cart_item.name_product } </span>
 
-            <span> { cart_item.price_product }  </span>
+            <span> { (cart_item.price_product.toLocaleString('vi-VN')) } đ </span>
         
             <span className="custom-number">
                 <i onClick= { (event) => reduce_product_number( event, id ) } className="fas fa-minus" />
@@ -72,10 +75,10 @@ export function Cart() {
                 <i onClick= { (event) => addProductNumber( event, id ) } className="fas fa-plus" /> 
             </span>
 
-            <span> {cart_item.price_product * stateNumberProducts } đ</span>
+            <span> { (cart_item.price_product * stateNumberProducts ).toLocaleString('vi-VN') } đ</span>
         
             <span onClick = { (event) => delete_item( event, id ) }
-                className=" delete-one " type="button" > 
+                className= {` delete-one  `} type="button" > 
                 <i className="fas fa-trash-alt " /> 
             </span>
         </div>    

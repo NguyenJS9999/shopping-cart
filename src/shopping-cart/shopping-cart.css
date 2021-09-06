@@ -40,6 +40,12 @@ input::placeholder {
   color: rgba(228, 35, 19, 0.5);
   font-size: 14px;
 }
+.d-none {
+  display: none;
+}
+.d-flex {
+  display: flex;
+}
 
 /* -- Start khối giỏ hàng --  */
 .cart-container {
