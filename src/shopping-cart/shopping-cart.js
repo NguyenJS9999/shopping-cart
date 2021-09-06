@@ -3,20 +3,20 @@ import React, { useEffect, useRef, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './shopping-cart.css';
 
-const DATA_ITEM = [
+const DATA_ITEMS = [
     {
         id: 1,
         image_product: 'https://www.4-acoustic.com/assets/images/d/PCS-318NB-01-867d001e.png',
         name_product: 'PCS 318NB',
         price_product: 65200000,
-        number_product: 1,
+        quantity: 1,
     },
     {
         id: 2,
         image_product: 'https://www.nexo-sa.com/wp-content/uploads/ls18-e1476457570490.jpg',
         name_product: 'LS18',
         price_product: 89612600,
-        number_product: 1,
+        quantity: 2,
     },
     
 ]
@@ -24,7 +24,9 @@ const DATA_ITEM = [
 // const NUMBER_PRODUCT = [1, 2];
 
 export function Cart() {
-    // const [ state, set ] = useState( [...DATA_ITEM] )
+
+    const [ state, set ] = useState( [...DATA_ITEMS] )
+
     // Số lượng mỗi sản phẩm
     const [ stateNumberProducts, setNumberProducts ] = useState( 1 );
     // Gán Css xóa,
@@ -37,50 +39,73 @@ export function Cart() {
 
     // Tăng
     function addProductNumber( event, index ) {  console.log('Tăng số lượng sản phẩm index: ', index);
-        let numberItem = stateNumberProducts;  console.log('number_product', numberItem)
+
+        let numberItem = stateNumberProducts;  
+        console.log('quantity', numberItem)
        
         setNumberProducts( numberItem + 1 );
     }
+
     // Giảm
     function reduce_product_number( event, index ) { console.log('Tăng số lượng sản phẩm index:', index);
-        let numberItem = stateNumberProducts; console.log('number_product', numberItem)
+
+        let numberItem = stateNumberProducts; 
+        console.log('quantity', numberItem)
         setNumberProducts( numberItem - 1 );
     }
+
     // Xóa
-    function delete_item( event, index ) {
-        console.log('Xóa 1 sản phẩm đó index: ', index);
+    function delete_item( event, id ) {
+        console.log('Xóa 1 sản phẩm đó id: ', id);
         setDelProduct( false );
+
+        let deleteItem = [...DATA_ITEMS].filter( (item) => item.id === id );
+
+
+        console.log('deleteItem', deleteItem)
+
     }
 
-    const cartItemElement = DATA_ITEM.map( ( cart_item, id ) => 
+
+
+
+    const cartItemElement = DATA_ITEMS.map( ( cart_item, id ) => 
 
         <div  key = { cart_item.id }
             className=   {`  ${stateDelProduct &&  id ? 'd-none' : 'd-flex'}  cart-item   `} >
-
+            {/* Chọn sp */}
             <span> <input type="checkbox" defaultValue /> </span>
         
+            {/* Ảnh sp */}
             <span className=" cart-item-product-image ">
                 <img src={ cart_item.image_product } alt="sound" />
             </span>
         
+            {/* Tên sp */}
             <span> { cart_item.name_product } </span>
 
-            <span> { (cart_item.price_product.toLocaleString('vi-VN')) } đ </span>
-        
+            {/* Đơn giá sp    */}
+            <span> { ( cart_item.price_product.toLocaleString('vi-VN') ) } VNĐ </span>
+
+            {/* Giảm tăng số lượng sp */}
             <span className="custom-number">
-                <i onClick= { (event) => reduce_product_number( event, id ) } className="fas fa-minus" />
+                <i onClick= { (event) => reduce_product_number( event, cart_item.id ) } className="fas fa-minus" />
                 
-                <input className="custom-number-input" type="text" Value = { stateNumberProducts } />
+                {/* quantity_product  stateNumberProducts */}
+                <input className="custom-number-input" type="text" Value = { cart_item.quantity } /> 
                 
-                <i onClick= { (event) => addProductNumber( event, id ) } className="fas fa-plus" /> 
+                <i onClick= { (event) => addProductNumber( event, cart_item.id ) } className="fas fa-plus" /> 
             </span>
 
-            <span> { (cart_item.price_product * stateNumberProducts ).toLocaleString('vi-VN') } đ</span>
-        
-            <span onClick = { (event) => delete_item( event, id ) }
+            {/* Tổng tiền */}
+            <span> { (cart_item.price_product * stateNumberProducts ).toLocaleString('vi-VN') } VNĐ</span>
+
+            {/* Nút xóa */}
+            <span onClick = { (event) => delete_item( event, cart_item.id ) }
                 className= {` delete-one  `} type="button" > 
                 <i className="fas fa-trash-alt " /> 
             </span>
+
         </div>    
 
     
@@ -95,7 +120,7 @@ export function Cart() {
 
             <div className="cart-title">
               <span> <input type="checkbox" defaultValue /> </span>
-              <span> SẢN PHẨM&nbsp;<span className="cart-title-number-items"><small> ({DATA_ITEM.length}) </small></span> </span>
+              <span> SẢN PHẨM&nbsp;<span className="cart-title-number-items"><small> ({DATA_ITEMS.length}) </small></span> </span>
               <span> TÊN SẢN PHẨM</span>
               <span>ĐƠN GIÁ</span>
               <span>SỐ LƯỢNG</span>
