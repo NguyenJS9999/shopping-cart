@@ -21,7 +21,7 @@ const DATA_ITEM = [
     
 ]
 
-// const NUMBER_PRODUCT = [1, 2]
+// const NUMBER_PRODUCT = [1, 2];
 
 export function Cart() {
     // const [ state, set ] = useState( [...DATA_ITEM] )
