@@ -80,16 +80,10 @@ export function Cart() {
     function delete_item( event, id ) {
         console.log('Xóa 1 sản phẩm đó id: ', id);
         setDelProduct( false );
-
         let deleteItem = [...DATA_ITEMS].filter( (item) => item.id === id );
-
-
         console.log('deleteItem', deleteItem)
 
     }
-
-
-
 
     const cartItemElement = DATA_ITEMS.map( ( cart_item, id ) => 
 
@@ -118,7 +112,6 @@ export function Cart() {
                     value = { cart_item.quantity }
                     className="custom-number-input" type="number"  /> 
                 
-
                 <i onClick= { (event) => addProductNumber( event, cart_item.id ) } className="fas fa-plus" /> 
             </span>
 
@@ -132,8 +125,6 @@ export function Cart() {
             </span>
 
         </div>    
-
-    
     )
     
 
