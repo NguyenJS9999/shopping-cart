@@ -371,7 +371,6 @@ input::-webkit-inner-spin-button {
 .make-payment-button {
   width: 100%;
   border: 1px solid #e42313;
-  box-shadow: 0px 0px 8px 0px #e42313;
   border-radius: 2px;
   background: #e42313;
   color: white;
