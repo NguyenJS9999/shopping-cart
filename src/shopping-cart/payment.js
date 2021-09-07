@@ -1,13 +1,15 @@
 import './payment.css'
 
-export function PaymentElement() {
+export function PaymentElement( {totalAmount} ) {
+    let grossMoney = totalAmount - totalAmount * 0.1;
+
     return (
         <section className=" payment-container  container ">
             <div className=" payment-title "> THANH TOÁN </div>
             <div className=" count-money ">
             <span className=" total-money ">
                 <b>Tổng tiền</b>
-                <div className=" total-money-number ">195,600,000đ</div>
+                <div className=" total-money-number "> {totalAmount.toLocaleString()} VNĐ </div>
             </span>
             {/*  */}
             <div className="border-bottom" />
@@ -19,13 +21,13 @@ export function PaymentElement() {
             <div className="border-bottom" />
             <span className="into-money">
                 <b>Thành tiền</b>
-                <div className="into-money-number">197,556,000đ</div>
+                <div className="into-money-number"> {grossMoney.toLocaleString()} VNĐ</div>
             </span>
             </div> {/* count-money */}
             <span className=" make-payment ">
-            <a className="make-payment-button" href="./check-out.html">
-                <i className="fas fa-hand-holding-usd" /> &nbsp;TIẾN HÀNH THANH TOÁN
-            </a>
+            <div className="make-payment-button" >
+                <i className="fas fa-hand-holding-usd" /> &nbsp;TÍNH TỔNG TIỀN SAU THUẾ
+            </div>
             </span>
         </section> 
 
