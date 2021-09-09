@@ -103,7 +103,7 @@ input::-webkit-inner-spin-button {
 }
 .cart-title span {
   /* border: 1px solid #e42313; */
-  /* width: 100%; */
+  width: 100%;
   font-size: 20px;
   font-weight: 700;
 
