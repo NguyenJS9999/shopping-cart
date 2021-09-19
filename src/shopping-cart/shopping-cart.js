@@ -7,6 +7,8 @@ import { DATA_ITEMS } from './mock-data'
 export function Cart() {
 
     const [ stateDataItems, setDataItems] = useState( [...DATA_ITEMS] );
+    const [ stateValueInputQuantity, setValueInputQuantity] = useState( null );
+
     const [ stateCssButtonDelete, setCssButtonDelete] = useState( false );
     const [ stateCssButtonContinueBuy, setCssButtonContinueBuy] = useState( true );
 
@@ -20,9 +22,16 @@ export function Cart() {
         let cloneDataItems = stateDataItems.map( (obj) => ( {...obj}) );
 
         cloneDataItems.forEach( (item)=> {
-            if(item.id === id){
-                item.quantity += 1;
-             }
+            
+            if ( stateValueInputQuantity > 0 &&  stateValueInputQuantity <= 100) {   
+                console.log('so duong tang len duoc')
+                if(item.id === id){
+                    item.quantity += 1;
+                }
+            }
+            else {
+                return;
+            }  
         });
         console.log('cloneDataItems', cloneDataItems)
         setDataItems(cloneDataItems)
@@ -33,9 +42,15 @@ export function Cart() {
     function reduce_product_number( event, id ) { console.log('Giảm')
         let cloneDataItems = stateDataItems.map( (obj) => ( {...obj}) );
         cloneDataItems.forEach( ( item) => {
-            if ( item.id === id ) {
-                item.quantity -= 1
+            
+            if ( stateValueInputQuantity > 0 &&  stateValueInputQuantity <= 100) {   
+                if(item.id === id){
+                    item.quantity -= 1;
+                }
             }
+            else if ( stateValueInputQuantity <= 0  )  {
+                return  (<p>Bạn có muốn bỏ sản phẩm này khỏi giỏ hàng không</p>);
+            }  
         }) 
         console.log('cloneDataItems', cloneDataItems)
         setDataItems(cloneDataItems);
@@ -45,14 +60,14 @@ export function Cart() {
     }
     // Lấy giá trị ô input số lượng item
     function valueInputQuantity(event, id) {
-        let valueInputQuantity = event.target.value;
+        setValueInputQuantity(event.target.value)
         let cloneDataItems; 
         
-        if ( valueInputQuantity > 0 &&  valueInputQuantity <= 100 )  {
+        if ( stateValueInputQuantity > 0 &&  stateValueInputQuantity <= 100 )  {
             cloneDataItems = stateDataItems.map( (obj) => ( {...obj}) );
             cloneDataItems.forEach( ( item ) => {
                 if ( item.id === id ) {
-                    item.quantity = parseInt( valueInputQuantity );
+                    item.quantity = parseInt( stateValueInputQuantity );
                 }
             })
         } else {
