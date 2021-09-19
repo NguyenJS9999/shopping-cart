@@ -1,40 +1,19 @@
 import './payment.css'
 import React, {  useEffect, useState } from "react";
-// import { DATA_ITEMS } from './mock-data'
 
 // {totalAmount}
-export function PaymentElement( {stateCssButtonContinueBuy} ) {
-    // const [ stateDataItems, setDataItems] = useState( [...DATA_ITEMS] );
+export function PaymentElement( {updateTotalMoney} ) {
     const [ stateTotalAmount, setTotalAmount] = useState( 0 );
     let grossMoney = stateTotalAmount + (stateTotalAmount * 0.1);
 
-    // Data deep copy sau thay đổi số lượng item
-
-    useEffect( () => {
-        let totalAmounts = [ ];
-        let totalUnitPrice;
-        // [...DATA_ITEMS].map( getMoney )
-        [...stateCssButtonContinueBuy].map( getMoney )
-
-        function getMoney (item) {   
-            // console.log('Đơn giá item', item.price_product )
-            // console.log('Số lượng sp đó', item.quantity )
-            
-            totalUnitPrice = (item.price_product) * (item.quantity)
-            // console.log( '1 tổng đơn giá', totalUnitPrice )
-            totalAmounts.push( totalUnitPrice );
+    useEffect( () => { console.log('Chạy useffect');
+        let sumMoney = 0;
+        for ( let i = 0; i <  updateTotalMoney.length; i++ ) {
+            sumMoney += ( updateTotalMoney[i].price_product *  updateTotalMoney[i].quantity )
         } 
-        
-        // console.log('Mảng các đơn giá', totalAmounts)
-        const reducer = (previousValue, currentValue) => previousValue + currentValue;
-        let sumMoney = totalAmounts.reduce( reducer ) ;
-        // let sumMoney = 0;
-        // for ( let i = 0; i <  totalAmounts.length; i++ ) {
-        //     sumMoney += totalAmounts[i]
-        // } 
-        // console.log('sumMoney', sumMoney);
         setTotalAmount( sumMoney )
-    }, [setTotalAmount, stateCssButtonContinueBuy]);
+        
+    }, [setTotalAmount, updateTotalMoney]);
 
     return (
         <section className=" payment-container  container ">

@@ -9,7 +9,8 @@ export function Cart() {
     const [ stateDataItems, setDataItems] = useState( [...DATA_ITEMS] );
     const [ stateCssButtonDelete, setCssButtonDelete] = useState( false );
     const [ stateCssButtonContinueBuy, setCssButtonContinueBuy] = useState( true );
-    const [ stateUpdateTotalMoney, setUpdateTotalMoney] = useState( null );
+
+   
 
     
     const dataLength = DATA_ITEMS.length;
@@ -20,13 +21,13 @@ export function Cart() {
 
         cloneDataItems.forEach( (item)=> {
             if(item.id === id){
-                item.quantity += 1
-            }
+                item.quantity += 1;
+             }
         });
         console.log('cloneDataItems', cloneDataItems)
         setDataItems(cloneDataItems)
         // Truyền obj data mới vào state-truyền snag payment
-        setUpdateTotalMoney(cloneDataItems)
+  
     }
     // Giảm
     function reduce_product_number( event, id ) { console.log('Giảm')
@@ -38,8 +39,7 @@ export function Cart() {
         }) 
         console.log('cloneDataItems', cloneDataItems)
         setDataItems(cloneDataItems);
-        // Truyền obj data mới vào state-truyền snag payment
-        setUpdateTotalMoney(cloneDataItems);
+
 
         
     }
@@ -59,8 +59,7 @@ export function Cart() {
             return;
         }     
         setDataItems(cloneDataItems)
-        // Truyền obj data mới vào state-truyền snag payment
-        setUpdateTotalMoney(cloneDataItems)
+
     }
 
     // Xóa
@@ -185,7 +184,7 @@ export function Cart() {
             </section>
 
             {/* totalAmount = {stateTotalAmount} */}
-            <PaymentElement stateCssButtonContinueBuy = {stateUpdateTotalMoney} />
+            <PaymentElement updateTotalMoney = {stateDataItems} />
             </>
     )
 }
