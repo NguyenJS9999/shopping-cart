@@ -83,7 +83,14 @@ export function Cart() {
         let deletedItem = stateDataItems.filter( (item) => item.id !== id);
         console.log('Sau xóa còn deletedItem', deletedItem)   
         setDataItems( deletedItem );
-       
+
+        if ( dataLength <= 0) {
+            setCssButtonDelete(false)
+            setCssButtonContinueBuy(true)
+        } else {
+            setCssButtonDelete(true)
+            setCssButtonContinueBuy(false)
+        }
     }
 
     // let deletedItem2 = stateDataItems.filter( function delete() );
